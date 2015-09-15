@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2014, Met Office
+# (C) British Crown Copyright 2011 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,15 +13,15 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import (absolute_import, division, print_function)
 
 import types
 
-from nose.tools import assert_equal, assert_raises
 import numpy as np
 from numpy.testing import assert_array_almost_equal as assert_arr_almost
+import pytest
 import shapely.geometry as sgeom
 
 import cartopy.crs as ccrs
@@ -29,7 +29,7 @@ import cartopy.io.img_tiles as cimgt
 
 
 #: Maps Google tile coordinates to native mercator coordinates as defined
-#: by http://goo.gl/pgJi.
+#: by https://goo.gl/pgJi.
 KNOWN_EXTENTS = {(0, 0, 0): (-20037508.342789244, 20037508.342789244,
                              -20037508.342789244, 20037508.342789244),
                  (2, 0, 2): (0., 10018754.17139462,
@@ -44,7 +44,7 @@ KNOWN_EXTENTS = {(0, 0, 0): (-20037508.342789244, 20037508.342789244,
 
 
 def GOOGLE_IMAGE_URL_REPLACEMENT(self, tile):
-    url = ('http://chart.apis.google.com/chart?chst=d_text_outline&'
+    url = ('https://chart.googleapis.com/chart?chst=d_text_outline&'
            'chs=256x256&chf=bg,s,00000055&chld=FFFFFF|16|h|000000|b||||'
            'Google:%20%20(' + str(tile[0]) + ',' + str(tile[1]) + ')'
            '|Zoom%20' + str(tile[2]) + '||||||______________________'
@@ -59,37 +59,37 @@ def test_google_tile_styles():
     This is essentially just assures information is properly propagated through
     the class structure.
     """
-    reference_url = ("http://mts0.google.com/vt/lyrs={style}@177000000&hl=en"
+    reference_url = ("https://mts0.google.com/vt/lyrs={style}@177000000&hl=en"
                      "&src=api&x=1&y=2&z=3&s=G")
     tile = ["1", "2", "3"]
 
     # Default is street.
     gt = cimgt.GoogleTiles()
     url = gt._image_url(tile)
-    assert_equal(reference_url.format(style="m"), url)
+    assert reference_url.format(style="m") == url
 
     # Street
     gt = cimgt.GoogleTiles(style="street")
     url = gt._image_url(tile)
-    assert_equal(reference_url.format(style="m"), url)
+    assert reference_url.format(style="m") == url
 
     # Satellite
     gt = cimgt.GoogleTiles(style="satellite")
     url = gt._image_url(tile)
-    assert_equal(reference_url.format(style="s"), url)
+    assert reference_url.format(style="s") == url
 
     # Terrain
     gt = cimgt.GoogleTiles(style="terrain")
     url = gt._image_url(tile)
-    assert_equal(reference_url.format(style="t"), url)
+    assert reference_url.format(style="t") == url
 
     # Streets only
     gt = cimgt.GoogleTiles(style="only_streets")
     url = gt._image_url(tile)
-    assert_equal(reference_url.format(style="h"), url)
+    assert reference_url.format(style="h") == url
 
     # Exception is raised if unknown style is passed.
-    with assert_raises(ValueError):
+    with pytest.raises(ValueError):
         cimgt.GoogleTiles(style="random_style")
 
 
@@ -100,19 +100,19 @@ def test_google_wts():
     multi_poly = gt.crs.project_geometry(ll_target_domain, ccrs.PlateCarree())
     target_domain = multi_poly.geoms[0]
 
-    with assert_raises(AssertionError):
+    with pytest.raises(AssertionError):
         list(gt.find_images(target_domain, -1))
-    assert_equal(tuple(gt.find_images(target_domain, 0)),
+    assert (tuple(gt.find_images(target_domain, 0)) ==
                  ((0, 0, 0),))
-    assert_equal(tuple(gt.find_images(target_domain, 2)),
+    assert (tuple(gt.find_images(target_domain, 2)) ==
                  ((1, 1, 2), (2, 1, 2)))
 
-    assert_equal(list(gt.subtiles((0, 0, 0))),
-                 [(0, 0, 1), (0, 1, 1), (1, 0, 1), (1, 1, 1)])
-    assert_equal(list(gt.subtiles((1, 0, 1))),
-                 [(2, 0, 2), (2, 1, 2), (3, 0, 2), (3, 1, 2)])
+    assert (list(gt.subtiles((0, 0, 0))) ==
+            [(0, 0, 1), (0, 1, 1), (1, 0, 1), (1, 1, 1)])
+    assert (list(gt.subtiles((1, 0, 1))) ==
+            [(2, 0, 2), (2, 1, 2), (3, 0, 2), (3, 1, 2)])
 
-    with assert_raises(AssertionError):
+    with pytest.raises(AssertionError):
         gt.tileextent((0, 1, 0))
 
     assert_arr_almost(gt.tileextent((0, 0, 0)), KNOWN_EXTENTS[(0, 0, 0)])
@@ -137,8 +137,8 @@ def test_tile_find_images():
     multi_poly = gt.crs.project_geometry(ll_target_domain, ccrs.PlateCarree())
     target_domain = multi_poly.geoms[0]
 
-    assert_equal([(7, 4, 4), (7, 5, 4), (8, 4, 4), (8, 5, 4)],
-                 list(gt.find_images(target_domain, 4)))
+    assert (list(gt.find_images(target_domain, 4)) ==
+            [(7, 4, 4), (7, 5, 4), (8, 4, 4), (8, 5, 4)])
 
 
 def test_image_for_domain():
@@ -166,22 +166,22 @@ def test_quadtree_wts():
     multi_poly = qt.crs.project_geometry(ll_target_domain, ccrs.PlateCarree())
     target_domain = multi_poly.geoms[0]
 
-    with assert_raises(ValueError):
+    with pytest.raises(ValueError):
         list(qt.find_images(target_domain, 0))
 
-    assert_equal(qt.tms_to_quadkey((1, 1, 1)), '1')
-    assert_equal(qt.quadkey_to_tms('1'), (1, 1, 1))
+    assert qt.tms_to_quadkey((1, 1, 1)) == '1'
+    assert qt.quadkey_to_tms('1') == (1, 1, 1)
 
-    assert_equal(qt.tms_to_quadkey((8, 9, 4)), '1220')
-    assert_equal(qt.quadkey_to_tms('1220'), (8, 9, 4))
+    assert qt.tms_to_quadkey((8, 9, 4)) == '1220'
+    assert qt.quadkey_to_tms('1220') == (8, 9, 4)
 
-    assert_equal(tuple(qt.find_images(target_domain, 1)), ('0', '1'))
-    assert_equal(tuple(qt.find_images(target_domain, 2)), ('03', '12'))
+    assert tuple(qt.find_images(target_domain, 1)) == ('0', '1')
+    assert tuple(qt.find_images(target_domain, 2)) == ('03', '12')
 
-    assert_equal(list(qt.subtiles('0')), ['00', '01', '02', '03'])
-    assert_equal(list(qt.subtiles('11')), ['110', '111', '112', '113'])
+    assert list(qt.subtiles('0')) == ['00', '01', '02', '03']
+    assert list(qt.subtiles('11')) == ['110', '111', '112', '113']
 
-    with assert_raises(ValueError):
+    with pytest.raises(ValueError):
         qt.tileextent('4')
 
     assert_arr_almost(qt.tileextent(''), KNOWN_EXTENTS[(0, 0, 0)])
@@ -201,13 +201,8 @@ def test_mapbox_tiles():
     token = 'foo'
     map_id = 'bar'
     tile = [0, 1, 2]
-    exp_url = 'http://api.tiles.mapbox.com/v4/bar/2/0/1.png?access_token=foo'
+    exp_url = 'https://api.tiles.mapbox.com/v4/bar/2/0/1.png?access_token=foo'
 
     mapbox_sample = cimgt.MapboxTiles(token, map_id)
     url_str = mapbox_sample._image_url(tile)
-    assert_equal(url_str, exp_url)
-
-
-if __name__ == '__main__':
-    import nose
-    nose.runmodule(argv=['-s', '--with-doctest'], exit=False)
+    assert url_str == exp_url

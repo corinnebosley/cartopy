@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2016, Met Office
+# (C) British Crown Copyright 2011 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,14 +13,13 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import (absolute_import, division, print_function)
 
-import numpy as np
 import matplotlib.pyplot as plt
 
-from cartopy.tests.mpl import ImageTesting
+from cartopy.tests.mpl import MPL_VERSION, ImageTesting
 
 
 class ExampleImageTesting(ImageTesting):
@@ -41,12 +40,8 @@ class ExampleImageTesting(ImageTesting):
         return new_fn
 
 
-@ExampleImageTesting(['global_map'])
+@ExampleImageTesting(['global_map'],
+                     tolerance=4 if MPL_VERSION < '2' else 0)
 def test_global_map():
-    import cartopy.examples.global_map as c
+    import cartopy.examples.lines_and_polygons.global_map as c
     c.main()
-
-
-if __name__ == '__main__':
-    import nose
-    nose.runmodule(argv=['-s', '--with-doctest'], exit=False)

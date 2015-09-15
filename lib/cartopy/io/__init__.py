@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2015, Met Office
+# (C) British Crown Copyright 2011 - 2016, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 Provides a collection of sub-packages for loading, saving and retrieving
@@ -289,14 +289,14 @@ class Downloader(object):
 
         >>> from cartopy.io import Downloader
         >>>
-        >>> dnldr = Downloader('http://example.com/{name}', './{name}.txt')
+        >>> dnldr = Downloader('https://example.com/{name}', './{name}.txt')
         >>> config = {('level_1', 'level_2'): dnldr}
         >>> d1 = Downloader.from_config(('level_1', 'level_2', 'level_3'),
         ...                             config_dict=config)
         >>> print(d1.url_template)
-        http://example.com/{name}
+        https://example.com/{name}
         >>> print(d1.url({'name': 'item_name'}))
-        http://example.com/item_name
+        https://example.com/item_name
 
         """
         spec_depth = len(specification)

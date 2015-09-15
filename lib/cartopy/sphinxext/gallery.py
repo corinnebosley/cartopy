@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2013 - 2014, Met Office
+# (C) British Crown Copyright 2013 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import (absolute_import, division, print_function)
 
@@ -202,9 +202,9 @@ def gallery_code(examples_mod_name):
             # XXX The path is currently determined out of process by
             # the plot directive. It would be nice to figure out the
             # naming scheme to handle multiple plots in a single example.
-            img_path = 'examples/{}_01_00.png'.format(
+            img_path = 'examples/{}_00_00.png'.format(
                 mod_name.split('.')[-1])
-            thumb_path = 'examples/{}_01_00.thumb.png'.format(
+            thumb_path = 'examples/{}_00_00.thumb.png'.format(
                 mod_name.split('.')[-1])
 
             entry = ["|image_{}|_\n".format(safe_name),
@@ -283,7 +283,6 @@ def gen_examples(app):
     examples_code(example_package_name, source_dir, 'examples')
 
 
-@cartopy.tests.not_a_nose_fixture
 def setup(app):
     app.connect('builder-inited', gen_gallery)
     app.connect('builder-inited', gen_examples)

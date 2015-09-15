@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2013 - 2014, Met Office
+# (C) British Crown Copyright 2013 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import (absolute_import, division, print_function)
 
@@ -203,8 +203,3 @@ class Test_vector_scalar_to_grid(object):
         assert_array_almost_equal(u_grid, expected_u_grid)
         assert_array_almost_equal(v_grid, expected_v_grid)
         assert_array_almost_equal(s_grid, expected_s_grid)
-
-
-if __name__ == '__main__':
-    import nose
-    nose.runmodule(argv=['-sv', '--with-doctest'], exit=False)

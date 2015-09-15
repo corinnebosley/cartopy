@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2016, Met Office
+# (C) British Crown Copyright 2011 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 """
 This module defines :class:`Feature` instances, for use with
 ax.add_feature().
@@ -23,7 +23,6 @@ ax.add_feature().
 from __future__ import (absolute_import, division, print_function)
 
 from abc import ABCMeta, abstractmethod
-import os.path
 
 import numpy as np
 import shapely.geometry as sgeom
@@ -188,12 +187,27 @@ class NaturalEarthFeature(Feature):
 
         return iter(geometries)
 
+    def with_scale(self, new_scale):
+        """
+        Return a copy of the feature with a new scale.
+
+        Args:
+
+        * new_scale:
+            The new dataset scale, i.e. one of '10m', '50m', or '110m'.
+            Corresponding to 1:10,000,000, 1:50,000,000, and 1:110,000,000
+            respectively.
+
+        """
+        return NaturalEarthFeature(self.category, self.name, new_scale,
+                                   **self.kwargs)
+
 
 class GSHHSFeature(Feature):
     """
     An interface to the GSHHS dataset.
 
-    See http://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html
+    See https://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html
 
     Args:
 
@@ -346,6 +360,9 @@ BORDERS = NaturalEarthFeature('cultural', 'admin_0_boundary_lines_land',
                               '110m', edgecolor='black', facecolor='none')
 """Small scale (1:110m) country boundaries."""
 
+STATES = NaturalEarthFeature('cultural', 'admin_1_states_provinces_lakes',
+                             '110m', edgecolor='black', facecolor='none')
+"""Small scale (1:110m) state and province boundaries."""
 
 COASTLINE = NaturalEarthFeature('physical', 'coastline', '110m',
                                 edgecolor='black', facecolor='none')

@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 The Shuttle Radar Topography Mission (SRTM) is an international research
@@ -407,6 +407,9 @@ class SRTMDownloader(Downloader):
         Downloader.__init__(self, None,
                             target_path_template,
                             pre_downloaded_path_template)
+        warnings.warn('SRTM requires an account set up and log in to access.'
+                      'use of this class is likely to fail with'
+                      ' HTTP 401 errors.')
 
     def url(self, format_dict):
         # override the url method, looking up the url from the

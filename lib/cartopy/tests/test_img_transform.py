@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2014, Met Office
+# (C) British Crown Copyright 2014 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import (absolute_import, division, print_function)
 
@@ -89,8 +89,3 @@ def test_griding_data_outside_projection():
     assert_array_equal([-180, 180, -90, 90], extent)
     assert_array_equal(expected, image)
     assert_array_equal(expected_mask, image.mask)
-
-
-if __name__ == '__main__':
-    import nose
-    nose.runmodule(argv=['-sv', '--with-doctest'], exit=False)

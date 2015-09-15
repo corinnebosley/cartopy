@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2015, Met Office
+# (C) British Crown Copyright 2011 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 """
 Provides shapely geometry <-> matplotlib path support.
 
@@ -22,7 +22,7 @@ See also `Shapely Geometric Objects <see_also_shapely>`_
 and `Matplotlib Path API <http://matplotlib.org/api/path_api.html>`_.
 
 .. see_also_shapely:
-   http://toblerity.github.com/shapely/manual.html#geometric-objects
+   http://toblerity.org/shapely/manual.html#geometric-objects
 
 """
 
@@ -63,7 +63,7 @@ def geos_to_path(shape):
         return paths
 
     if isinstance(shape, (sgeom.LineString, sgeom.Point)):
-        return [Path(np.vstack(shape.xy).T)]
+        return [Path(np.column_stack(shape.xy))]
     elif isinstance(shape, sgeom.Polygon):
         def poly_codes(poly):
             codes = np.ones(len(poly.xy[0])) * Path.LINETO
@@ -185,7 +185,7 @@ def path_to_geos(path, force_ccw=False):
                                      axis=1)
         if all(verts_same_as_first):
             geom = sgeom.Point(path_verts[0, :])
-        elif (path_verts.shape[0] > 2 and
+        elif (path_verts.shape[0] > 3 and
                 (path_codes[-1] == Path.CLOSEPOLY or
                  verts_same_as_first[-1])):
             if path_codes[-1] == Path.CLOSEPOLY:

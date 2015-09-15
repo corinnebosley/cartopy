@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2016, Met Office
+# (C) British Crown Copyright 2011 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 Implements image tile identification and fetching from various sources.
@@ -33,6 +33,7 @@ from PIL import Image
 import shapely.geometry as sgeom
 import numpy as np
 import six
+import warnings
 
 import cartopy.crs as ccrs
 
@@ -44,17 +45,24 @@ class GoogleTiles(object):
     A "tile" in this class refers to the coordinates (x, y, z).
 
     """
-    def __init__(self, desired_tile_form='RGB', style="street"):
+    def __init__(self, desired_tile_form='RGB', style="street",
+                 url=('https://mts0.google.com/vt/lyrs={style}'
+                      '@177000000&hl=en&src=api&x={x}&y={y}&z={z}&s=G')):
         """
         :param desired_tile_form:
         :param style: The style for the Google Maps tiles. One of 'street',
             'satellite', 'terrain', and 'only_streets'.
             Defaults to 'street'.
+        :param url: str url pointing to a tile source and containing {x},
+                    {y}, and {z}. Such as:
+                    ('https://server.arcgisonline.com/ArcGIS/rest/services/'
+                     'World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}.jpg')
         """
         # Only streets are partly transparent tiles that can be overlayed over
         # the satellite map to create the known hybrid style from google.
         styles = ["street", "satellite", "terrain", "only_streets"]
         style = style.lower()
+        self.url = url
         if style not in styles:
             msg = "Invalid style '%s'. Valid styles: %s" % \
                 (style, ", ".join(styles))
@@ -173,12 +181,11 @@ class GoogleTiles(object):
             "satellite": "s",
             "terrain": "t",
             "only_streets": "h"}
-        url = ('http://mts0.google.com/vt/lyrs={style}@177000000&hl=en&'
-               'src=api&x={tile_x}&y={tile_y}&z={tile_z}&s=G'.format(
+        url = self.url.format(
                    style=style_dict[self.style],
-                   tile_x=tile[0],
-                   tile_y=tile[1],
-                   tile_z=tile[2]))
+                   x=tile[0], X=tile[0],
+                   y=tile[1], Y=tile[1],
+                   z=tile[2], Z=tile[2])
         return url
 
     def get_image(self, tile):
@@ -201,10 +208,18 @@ class GoogleTiles(object):
 
 class MapQuestOSM(GoogleTiles):
     # http://developer.mapquest.com/web/products/open/map for terms of use
+    # http://devblog.mapquest.com/2016/06/15/
+    # modernization-of-mapquest-results-in-changes-to-open-tile-access/
+    # this now requires a sign up to a plan
     def _image_url(self, tile):
         x, y, z = tile
         url = 'http://otile1.mqcdn.com/tiles/1.0.0/osm/%s/%s/%s.jpg' % (
             z, x, y)
+        mqdevurl = ('http://devblog.mapquest.com/2016/06/15/'
+                    'modernization-of-mapquest-results-in-changes'
+                    '-to-open-tile-access/')
+        warnings.warn('{} will require a log in and and will likely'
+                      ' fail. see {} for more details.'.format(url, mqdevurl))
         return url
 
 
@@ -224,7 +239,7 @@ class OSM(GoogleTiles):
     # http://developer.mapquest.com/web/products/open/map for terms of use
     def _image_url(self, tile):
         x, y, z = tile
-        url = 'http://a.tile.openstreetmap.org/%s/%s/%s.png' % (z, x, y)
+        url = 'https://a.tile.openstreetmap.org/%s/%s/%s.png' % (z, x, y)
         return url
 
 
@@ -243,7 +258,7 @@ class StamenTerrain(GoogleTiles):
     Additional info:
     http://mike.teczno.com/notes/osm-us-terrain-layer/background.html
     http://maps.stamen.com/#terrain/12/37.6902/-122.3600
-    http://wiki.openstreetmap.org/wiki/List_of_OSM_based_Services
+    https://wiki.openstreetmap.org/wiki/List_of_OSM_based_Services
     https://github.com/migurski/DEM-Tools
     """
     def _image_url(self, tile):
@@ -282,7 +297,7 @@ class MapboxTiles(GoogleTiles):
 
     def _image_url(self, tile):
         x, y, z = tile
-        url = ('http://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?'
+        url = ('https://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?'
                'access_token={token}'.format(z=z, y=y, x=x,
                                              mapid=self.map_id,
                                              token=self.access_token))
@@ -323,7 +338,7 @@ class QuadtreeTiles(GoogleTiles):
 
     def quadkey_to_tms(self, quadkey, google=False):
         # algorithm ported from
-        # http://msdn.microsoft.com/en-us/library/bb259689.aspx
+        # https://msdn.microsoft.com/en-us/library/bb259689.aspx
         assert isinstance(quadkey, six.string_types), \
             'quadkey must be a string'
 

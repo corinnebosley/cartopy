@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2014, Met Office
+# (C) British Crown Copyright 2011 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,11 +13,9 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import (absolute_import, division, print_function)
-
-import unittest
 
 import cartopy
 import cartopy.io.shapereader as shp
@@ -25,7 +23,7 @@ import cartopy.io.shapereader as shp
 COASTLINE_PATH = shp.natural_earth()
 
 
-class TestCoastline(unittest.TestCase):
+class TestCoastline(object):
     def test_robust(self):
         # Make sure all the coastlines can be projected without raising any
         # exceptions.
@@ -40,6 +38,3 @@ class TestCoastline(unittest.TestCase):
         for i, geometry in enumerate(geometries[93:]):
             for line_string in geometry:
                 multi_line_string = projection.project_geometry(line_string)
-
-if __name__ == '__main__':
-    unittest.main()

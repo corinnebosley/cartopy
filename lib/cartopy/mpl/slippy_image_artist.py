@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2014, Met Office
+# (C) British Crown Copyright 2014 - 2016, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 """
 Defines the SlippyImageArtist class, which interfaces with
 :class:`cartopy.io.RasterSource` instances at draw time, for interactive
@@ -47,7 +47,7 @@ class SlippyImageArtist(AxesImage):
         if not self.get_visible():
             return
 
-        ax = self.get_axes()
+        ax = self.axes
         window_extent = ax.get_window_extent()
         [x1, y1], [x2, y2] = ax.viewLim.get_points()
         located_images = self.raster_source.fetch_raster(

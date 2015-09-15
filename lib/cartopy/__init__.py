@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2015, Met Office
+# (C) British Crown Copyright 2011 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,11 +13,11 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import (absolute_import, division, print_function)
 
-__version__ = '0.14.dev0'
+__version__ = '0.15.0'
 __document_these__ = ['config']
 
 # Enable shapely performance enhancements
@@ -31,7 +31,7 @@ import os.path
 
 # for the writable data directory (i.e. the one where new data goes), follow
 # the XDG guidelines found at
-# http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
+# https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 _writable_dir = os.path.join(os.path.expanduser('~'), '.local', 'share')
 _data_dir = os.path.join(os.environ.get("XDG_DATA_HOME", _writable_dir),
                          'cartopy')
@@ -60,26 +60,26 @@ first and only argument.
 
 Keys in the config dictionary:
 
- * ``pre_existing_data_dir`` - the absolute path to a directory where standard
-                               data (such as that from NaturalEarth) can be
-                               found. If it is not found in this location
-                               the ``data_dir`` config item will be used.
+``pre_existing_data_dir``
+    The absolute path to a directory where standard data (such as that from
+    NaturalEarth) can be found. If it is not found in this location the
+    ``data_dir`` config item will be used.
 
- * ``data_dir`` - the absolute path to a directory where standard data (such
-                  as that from NaturalEarth) can be found. If it is not found
-                  and the item is downloadable cartopy will download the
-                  appropriate file(s) to a subdirectory of this directory,
-                  therefore ``data_dir`` should be writable by the user.
+``data_dir``
+    The absolute path to a directory where standard data (such as that from
+    NaturalEarth) can be found. If it is not found and the item is downloadable
+    cartopy will download the appropriate file(s) to a subdirectory of this
+    directory, therefore ``data_dir`` should be writable by the user.
 
- * ``repo_data_dir`` - the absolute path to the directory where the data
-                       delivered with the cartopy repository is stored.
-                       Typically this will only be set by OS packagers and
-                       system administrators for site wide deployments.
+``repo_data_dir``
+    The absolute path to the directory where the data delivered with the
+    cartopy repository is stored.  Typically this will only be set by OS
+    packagers and system administrators for site wide deployments.
 
- * ``downloaders`` - a dictionary mapping standard "specifications" to the
-                     appropriate :class:`~cartopy.io.Downloader`. For further
-                     documentation and an example see
-                     :func:`cartopy.io.Downloader.from_config`.
+``downloaders``
+    A dictionary mapping standard "specifications" to the appropriate
+    :class:`~cartopy.io.Downloader`. For further documentation and an example
+    see :func:`cartopy.io.Downloader.from_config`.
 
 """  # n.b. docstring changes should be propagated to docs/source/cartopy.rst
 

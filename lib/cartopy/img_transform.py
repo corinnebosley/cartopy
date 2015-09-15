@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2014, Met Office
+# (C) British Crown Copyright 2011 - 2016, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 """
 This module contains generic functionality to support Cartopy image
 transformations.
@@ -80,6 +80,14 @@ def mesh_projection(projection, nx, ny,
                            endpoint=False)
     y, ystep = np.linspace(y_lower, y_upper, ny, retstep=True,
                            endpoint=False)
+
+    # Deal with single point corner case and the difference
+    # between np.linspace v1.9 and v1.10+ retstep nan result.
+    if nx == 1 and np.isnan(xstep):
+        xstep = x_upper - x_lower
+
+    if ny == 1 and np.isnan(ystep):
+        ystep = y_upper - y_lower
 
     # Offset the sample points to be within the extent range.
     x += 0.5 * xstep
@@ -285,7 +293,13 @@ def regrid(array, source_x_coords, source_y_coords, source_cs, target_proj,
                                            target_x_points.flatten(),
                                            target_y_points.flatten())
 
-    kdtree = scipy.spatial.cKDTree(xyz)
+    # Versions of scipy >= v0.16 added the balanced_tree argument,
+    # which caused the KDTree to hang with this input.
+    try:
+        kdtree = scipy.spatial.cKDTree(xyz, balanced_tree=False)
+    except TypeError:
+        kdtree = scipy.spatial.cKDTree(xyz)
+
     distances, indices = kdtree.query(target_xyz, k=1)
     mask = np.isinf(distances)
 

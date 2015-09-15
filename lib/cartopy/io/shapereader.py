@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2015, Met Office
+# (C) British Crown Copyright 2011 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,14 +13,13 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 
 """
 Combines the shapefile access of pyshp with the
 geometry representation of shapely:
 
-    >>> import os.path
     >>> import cartopy.io.shapereader as shapereader
     >>> filename = natural_earth(resolution='110m',
     ...                          category='physical',
@@ -390,7 +389,7 @@ class GSHHSShpDownloader(Downloader):
     """
     FORMAT_KEYS = ('config', 'scale', 'level')
 
-    _GSHHS_URL_TEMPLATE = ('http://www.ngdc.noaa.gov/mgg/shorelines/data/'
+    _GSHHS_URL_TEMPLATE = ('https://www.ngdc.noaa.gov/mgg/shorelines/data/'
                            'gshhs/oldversions/version2.2.0/'
                            'GSHHS_shp_2.2.0.zip')
 

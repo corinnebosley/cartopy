@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2015, Met Office
+# (C) British Crown Copyright 2011 - 2016, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 """
 This module defines the :class:`FeatureArtist` class, for drawing
 :class:`Feature` instances with matplotlib.
@@ -122,7 +122,7 @@ class FeatureArtist(matplotlib.artist.Artist):
         if not self.get_visible():
             return
 
-        ax = self.get_axes()
+        ax = self.axes
         feature_crs = self._feature.crs
 
         # Get geometries that we need to draw.

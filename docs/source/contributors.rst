@@ -31,7 +31,11 @@ the package wouldn't be as rich or diverse as it is today:
  * Laura Dreyer
  * Daniel Atton Beckmann
  * Joseph Hogg
+ * Louis Tiao
  * Zachary Tessler
+ * Daniel Eriksson
+ * Crispian Batstone
+ * Daryl Herzmann
 
 
 Thank you!

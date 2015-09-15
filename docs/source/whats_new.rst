@@ -1,8 +1,57 @@
+What's New in cartopy 0.15
+==========================
+
+:Release: 0.15.0
+:Date: 1st February 2017
+
+Features
+--------
+
+* The :class:`cartopy.crs.Mercator` class now allows a ``latitude_true_scale``
+  to be specified.
+
+* A ``tiles`` url can now be passed directly to the
+  :class:`cartopy.io.img_tiles.GoogleTiles` class.
+
+* The :meth:`~cartopy.mpl.geoaxes.GeoAxes.background_img` method has been
+  added. This allows users to add a background image to the map, from a
+  selection of pre-prepared images held in a directory specified by the
+  CARTOPY_USER_BACKGROUNDS environment variable.
+
+* The Web Map Tile Service (WMTS) interface has been extended so that WMTS
+  layers can be added to geoaxes in different projections.
+
+* The :class:`~cartopy.crs.NearsidePerspective` projection has been added.
+
+* Optional kwargs can now be supplied to the
+  :meth:`~cartopy.mpl.geoaxes.GeoAxes.add_wmts` method, which will be passed to
+  the OGC WMTS ``gettile`` method.
+
+* New additions to the gallery:
+
+.. figure:: gallery/miscellanea/images/sphx_glr_axes_grid_basic_001.png
+   :target: gallery/miscellanea/axes_grid_basic.html
+   :align: center
+   :scale: 70
+
+.. figure:: gallery/web_services/images/sphx_glr_reprojected_wmts_001.png
+   :target: gallery/miscellanea/reprojected_wmts.html
+   :align: center
+   :scale: 70
+
+.. figure:: gallery/web_services/images/sphx_glr_wmts_time_001.png
+   :target: gallery/miscellanea/wmts_time.html
+   :align: center
+   :scale: 70
+
+-----------
+
+
 What's New in cartopy 0.14
 ==========================
 
 :Release: 0.14.0
-:Date: TBC
+:Date: 24th March 2016
 
 Features
 --------
@@ -18,14 +67,35 @@ Features
   convenience function that returns geodetic circles. This is used by
   :meth:`cartopy.mpl.geoaxes.GeoAxes.tissot` which draws Tissot's indicatrices on the axes.
 
+  .. figure:: gallery/miscellanea/images/sphx_glr_tissot_001.png
+     :target: gallery/miscellanea/tissot.html
+     :align: center
+     :scale: 70
+
 * The SRTM3 data source has been changed to the `LP DAAC Data Pool
   <https://lpdaac.usgs.gov/data_access/data_pool>`_. The Data Pool is more
   consistent, fixing several missing tiles, and the data is void-filled.
   Consequently, the :func:`cartopy.srtm.fill_gaps` function has been deprecated
-  as it has no purpose. The :ref:`SRTM example<examples-srtm_shading>` has also
+  as it has no purpose within the STRM context. The
+  :ref:`SRTM example<examples-srtm_shading>` has also
   been updated to skip the void-filling step. Additionally, this data source
   provides SRTM at a higher resolution of 1 arc-second, which may be accessed
   via :class:`cartopy.io.srtm.SRTM1Source`.
+
+* All downloaders will use secure connections where available. Not
+  every service supports this method, and so those will use non-secured HTTP connections
+  instead. (See :pull:`736` for full details.)
+
+* Cartopy now supports, and is tested against, matplotlib 1.3 and 1.5 as well as
+  numpy 1.7, 1.8 and 1.10.
+
+* Daniel Eriksson added a new example to the gallery:
+
+  .. figure:: gallery/scalar_data/images/sphx_glr_aurora_forecast_001.png
+     :target: gallery/miscellanea/aurora_forecast.html
+     :align: center
+     :scale: 70
+
 
 Incompatible changes
 --------------------
@@ -35,6 +105,10 @@ Incompatible changes
 Deprecations
 ------------
 * :data:`cartopy.crs.GOOGLE_MERCATOR` has been moved to :data:`cartopy.crs.Mercator.GOOGLE`.
+
+
+-----------
+
 
 
 What's new in cartopy 0.13
@@ -61,11 +135,13 @@ Features
 
 * A new example was added to the gallery:
 
-  |image_eccentric_ellipse|_
+  .. figure:: gallery/miscellanea/images/sphx_glr_eccentric_ellipse_001.png
+     :target: gallery/miscellanea/eccentric_ellipse.html
+     :align: center
+     :scale: 70
 
-    .. |image_eccentric_ellipse| image:: examples/eccentric_ellipse_01_00.thumb.png
 
-    .. _image_eccentric_ellipse: examples/eccentric_ellipse.html
+-----------
 
 
 
@@ -102,8 +178,10 @@ Features
   Goode Homolosine map - unsurprisingly this WMS service does not provide IGH imagery, so
   cartopy has had to reproject them from a projection the WMS does support:
 
-    .. plot:: examples/wms.py
-       :width: 200pt
+  .. figure:: gallery/web_services/images/sphx_glr_wms_001.png
+     :target: gallery/web_services/wms.html
+     :align: center
+     :scale: 70
 
 * Peter Killick added an interface for accessing MapBox tiles using the MapBox
   Developer API. A MapBox client can be created with,
@@ -112,8 +190,10 @@ Features
   :meth:`~cartopy.mpl.geoaxes.GeoAxes.add_image` method. The following example demonstrates the
   interface for another source of imagery:
 
-    .. plot:: examples/image_tiles.py
-       :width: 200pt
+  .. figure:: gallery/web_services/images/sphx_glr_image_tiles_001.png
+     :target: gallery/web_services/image_tiles.html
+     :align: center
+     :scale: 70
 
 * Some improvements were made to the geometry transformation algorithm to improve
   the stability of geometry winding. Several cases of geometries being incorrectly
@@ -132,6 +212,7 @@ Features
         rpole = ccrs.RotatedPole(pole_longitude=171.77,
                                  pole_latitude=49.55,
                                  central_rotated_longitude=180)
+        fig = plt.figure(figsize=(10, 5))
         ax = plt.axes(projection=rpole)
         ax.set_global()
         ax.gridlines()
@@ -145,8 +226,10 @@ Features
   :class:`matplotlib Path<matplotlib.path.Path>` object, which means that
   arbitrary shaped edges can be achieved:
 
-    .. plot:: examples/star_shaped_boundary.py
-       :width: 200pt
+  .. figure:: gallery/miscellanea/images/sphx_glr_star_shaped_boundary_001.png
+     :target: gallery/miscellanea/star_shaped_boundary.html
+     :align: center
+     :scale: 70
 
 * A new SRTM3 RasterSource has been implemented allowing interactive pan/zoom
   of 3 arc-second elevation data from the Shuttle Radar Topography Mission.
@@ -155,36 +238,31 @@ Features
 
 * New additions to the gallery:
 
-  * |image_un_flag|_
 
-    .. |image_un_flag| image:: examples/un_flag_01_00.thumb.png
+  .. figure:: gallery/miscellanea/images/sphx_glr_un_flag_001.png
+     :target: gallery/miscellanea/un_flag.html
+     :align: center
+     :scale: 70
 
-    .. _image_un_flag: examples/un_flag.html
+  .. figure:: gallery/lines_and_polygons/images/sphx_glr_always_circular_stereo_001.png
+     :target: gallery/lines_and_polygons/always_circular_stereo.html
+     :align: center
+     :scale: 70
 
-  * |image_always_circular_stereo|_
+  .. figure:: gallery/miscellanea/images/sphx_glr_tube_stations_001.png
+     :target: gallery/miscellanea/tube_stations.html
+     :align: center
+     :scale: 70
 
-    .. |image_always_circular_stereo| image:: examples/always_circular_stereo_01_00.thumb.png
+  .. figure:: gallery/web_services/images/sphx_glr_wms_001.png
+     :target: gallery/web_services/wms.html
+     :align: center
+     :scale: 70
 
-    .. _image_always_circular_stereo: examples/always_circular_stereo.html
-
-  * |image_tube_stations|_
-
-    .. |image_tube_stations| image:: examples/tube_stations_01_00.thumb.png
-
-    .. _image_tube_stations: examples/tube_stations.html
-
-  * |image_wms|_
-
-    .. |image_wms| image:: examples/wms_01_00.thumb.png
-
-    .. _image_wms: examples/wms.html
-
-  * |image_image_tiles|_
-
-    .. |image_image_tiles| image:: examples/image_tiles_01_00.thumb.png
-
-    .. _image_image_tiles: examples/image_tiles.html
-
+  .. figure:: gallery/web_services/images/sphx_glr_image_tiles_001.png
+     :target: gallery/web_services/image_tiles.html
+     :align: center
+     :scale: 70
 
 
 Deprecations
@@ -220,7 +298,7 @@ What's new in cartopy 0.11
 
 * Richard Hattersley added :func:`~cartopy.crs.epsg` support for generating
   a Cartopy projection at run-time based on the EPSG code of a projected
-  coordinate system. This mechanism utilises http://epsg.io/ as a coordinate
+  coordinate system. This mechanism utilises https://epsg.io/ as a coordinate
   system resource and employs EPSG request caching using
   `pyepsg <https://github.com/rhattersley/pyepsg>`_
 
@@ -241,16 +319,15 @@ What's new in cartopy 0.11
   with the target projection and chooses the zoom level to best match the pixel
   density in the rendered image.
 
-.. plot:: examples/wmts.py
-    :width: 300pt
+  .. figure:: gallery/web_services/images/sphx_glr_wmts_001.png
+     :target: gallery/web_services/wmts.html
+     :align: center
+     :scale: 70
 
 * Thomas Lecocq added functionality to :mod:`cartopy.io.srtm` allowing
   intelligent filling of missing elevation data, as well as a function to
   compute elevation shading for relief style mapping. An example has been added
-  which uses both of these functions to produce a grayscale shaded relief map:
-
-.. plot:: examples/srtm_shading.py
-   :width: 300pt
+  which uses both of these functions to produce a grayscale shaded relief map
 
 * Lion Krischer extended the capability of
   :class:`~cartopy.io.img_tiles.GoogleTiles` to allow support for **street**,
@@ -268,8 +345,10 @@ What's new in cartopy 0.11
   rectangular projections. The formatters are customizable and can be used to produce
   nice tick labels in a variety of styles:
 
-.. plot:: examples/tick_labels.py
-   :width: 300pt
+  .. figure:: gallery/miscellanea/images/sphx_glr_tick_labels_001.png
+     :target: gallery/miscellanea/tick_labels.html
+     :align: center
+     :scale: 70
 
 
 -----------
@@ -284,7 +363,7 @@ What's new in cartopy 0.10
 We are very pleased to announce that Andrew Dawson was added to the cartopy
 core development team. In this release Andrew has single-handedly
 implemented comprehensive vector transformation and visualisation
-capabilities, including: 
+capabilities, including:
 
 * The ability to transform vector fields between different coordinate
   reference systems via the :meth:`~cartopy.crs.CRS.transform_vectors`
@@ -299,15 +378,16 @@ capabilities, including:
   :func:`cartopy.vector_transform.vector_scalar_to_grid`. Both
   :meth:`~cartopy.mpl.geoaxes.GeoAxes.quiver` and
   :meth:`~cartopy.mpl.geoaxes.GeoAxes.barbs` accept the ``regrid_shape``
-  keyword to trigger this behaviour automatically. 
-  
+  keyword to trigger this behaviour automatically.
+
 * :meth:`GeoAxes.streamplot <cartopy.mpl.geoaxes.GeoAxes.streamplot>` adds
   the ability to draw streamlines in any projection from a vector field in
   any other projection.
 
-.. plot:: examples/barbs.py
-    :width: 300pt
-
+  .. figure:: gallery/vector_data/images/sphx_glr_barbs_001.png
+     :target: gallery/vector_data/barbs.html
+     :align: center
+     :scale: 70
 
 -----------
 
@@ -321,31 +401,31 @@ What's new in cartopy 0.9
 * We are very pleased to announce that Bill Little was added to the cartopy
   core development team. Bill has made some excellent contributions to cartopy,
   and `his presentation at EuroScipy'13 on
-  "Iris & Cartopy" <https://www.euroscipy.org/schedule/presentation/35/>`_
+  "Iris & Cartopy" <https://www.euroscipy.org/2013/schedule/presentation/35/>`_
   was voted best talk of the conference.
 * Other talks and tutorials during this release cycle include Phil Elson's `talk at SciPy'13
   (with video) <http://conference.scipy.org/scipy2013/presentation_detail.php?id=132>`_,
-  `Thomas Lecocq's tutorial at EuroSciPy <https://www.euroscipy.org/schedule/presentation/27/>`_
+  `Thomas Lecocq's tutorial at EuroSciPy
+  <https://www.euroscipy.org/2013/schedule/presentation/27/>`_
   and a forthcoming `talk at FOSS4G <http://2013.foss4g.org/conf/programme/presentations/29/>`_.
 * Christoph Gohlke updated cartopy to support Windows 7.
 * The Plate Carree projection was updated to fully handle arbitrary globe definitions.
 * Peter Killick updated the Mercator class' default globe to WGS84. His refactor paved the way
   for some follow on work to fully implement the Google Spherical Mercator (EPSG:3857) projection.
 
-    |image_eyja_volcano|_
 
-    .. |image_eyja_volcano| image:: examples/eyja_volcano_01_00.thumb.png
+    .. figure:: gallery/scalar_data/images/sphx_glr_eyja_volcano_001.png
+       :target: gallery/scalar_data/eyja_volcano.html
+       :align: center
+       :scale: 70
 
-    .. _image_eyja_volcano: examples/eyja_volcano.html
-
-* The TransverseMercator class saw a tidy up to include several common arguments (:issue:`ticket <309>`)
+* The TransverseMercator class saw a tidy up to include several common arguments (:pull:`pull request <309>`)
 * Bill Little added the Geostationary projection to allow geolocation of satellite imagery.
-  
-    |image_geostationary|_
 
-    .. |image_geostationary| image:: examples/geostationary_01_00.thumb.png
-
-    .. _image_geostationary: examples/geostationary.html
+  .. figure:: gallery/scalar_data/images/sphx_glr_geostationary_001.png
+     :target: gallery/scalar_data/geostationary.html
+     :align: center
+     :scale: 70
 
 * Byron Blay added the :class:`Lambert conformal conic projection <cartopy.crs.LambertConformal>`.
 
@@ -405,9 +485,9 @@ What's new in cartopy 0.6
 * Phil Elson and Carwyn Pelley extended the cartopy documentation to include
   new tutorials such as :ref:`using_the_shapereader`.
 
-* Ian Edwards :doc:`added a new example <examples/favicon>` to create a favicon for cartopy.
+* Ian Edwards :doc:`added a new example <gallery/miscellanea/favicon>` to create a favicon for cartopy.
 
-* Phil Elson :doc:`added a new example <examples/hurricane_katrina>` to show polygon analysis
+* Phil Elson :doc:`added a new example <gallery/lines_and_polygons/hurricane_katrina>` to show polygon analysis
   and visualisation with Shapely and cartopy.
 
 * Edward Campbell added a new :py:class:`cartopy.crs.EuroPP` projection for UTM zone 32.
@@ -474,6 +554,7 @@ Feature API
 
 A new features api is now available, see :doc:`tutorials/using_the_shapereader`.
 
-.. literalinclude:: /examples/features.py
-
-.. plot:: examples/features.py
+.. figure:: gallery/lines_and_polygons/images/sphx_glr_features_001.png
+   :target: gallery/lines_and_polygons/features.html
+   :align: center
+   :scale: 70

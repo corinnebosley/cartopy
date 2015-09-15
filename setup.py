@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011 - 2016, Met Office
+# (C) British Crown Copyright 2011 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 from __future__ import print_function
 
 """
@@ -35,7 +35,7 @@ import warnings
 
 
 # Ensure build-time dependencies are available.
-# See http://stackoverflow.com/a/12061891
+# See https://stackoverflow.com/a/12061891
 setuptools.dist.Distribution(
     dict(
         setup_requires=['Cython>=0.15.1', 'numpy>=1.6']))
@@ -78,7 +78,7 @@ def find_package_tree(root_path, root_package):
     Returns the package and all its sub-packages.
 
     Automated package discovery - extracted/modified from Distutils Cookbook:
-    http://wiki.python.org/moin/Distutils/Cookbook/AutoPackageDiscovery
+    https://wiki.python.org/moin/Distutils/Cookbook/AutoPackageDiscovery
 
     """
     packages = [root_package]
@@ -94,6 +94,19 @@ def find_package_tree(root_path, root_package):
             prefix = dir_path.split(os.path.sep)[root_count:]
             packages.extend(['.'.join([root_package] + prefix + [dir_name]) for dir_name in dir_names])
     return packages
+
+
+def extract_version():
+    version = None
+    fdir = os.path.dirname(__file__)
+    fnme = os.path.join(fdir, 'lib', 'cartopy', '__init__.py')
+    with open(fnme) as fd:
+        for line in fd:
+            if (line.startswith('__version__')):
+                _, version = line.split('=')
+                version = version.strip()[1:-1]  # Remove quotation characters
+                break
+    return version
 
 
 class MissingHeaderError(Exception):
@@ -286,7 +299,9 @@ else:
             proj_includes = proj_includes.decode()
             proj_clibs = proj_clibs.decode()
 
-        proj_includes = proj_includes.split()
+        proj_includes = [proj_include[2:] if proj_include.startswith('-I') else
+                         proj_include for proj_include in proj_includes.split()]      
+
         proj_libraries = []
         proj_library_dirs = []
         for entry in proj_clibs.split():
@@ -333,7 +348,7 @@ with open(os.path.join(HERE, 'README.rst'), 'r') as fh:
 # ==========
 setup(
     name='Cartopy',
-    version='0.14.dev0',
+    version=extract_version(),
     url='http://scitools.org.uk/cartopy/docs/latest/',
     download_url='https://github.com/SciTools/cartopy',
     author='UK Met Office',
@@ -409,6 +424,7 @@ setup(
             'Programming Language :: Python :: 3',
             'Programming Language :: Python :: 3.3',
             'Programming Language :: Python :: 3.4',
+            'Programming Language :: Python :: 3.5',
             'Topic :: Scientific/Engineering',
             'Topic :: Scientific/Engineering :: GIS',
             'Topic :: Scientific/Engineering :: Visualization',

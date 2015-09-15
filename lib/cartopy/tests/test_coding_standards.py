@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2012 - 2015, Met Office
+# (C) British Crown Copyright 2012 - 2017, Met Office
 #
 # This file is part of cartopy.
 #
@@ -13,7 +13,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import (absolute_import, division, print_function)
 
@@ -23,7 +23,6 @@ from itertools import chain
 import os
 import re
 import subprocess
-import unittest
 
 import pep8
 
@@ -46,7 +45,7 @@ LICENSE_TEMPLATE = """
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with cartopy.  If not, see <http://www.gnu.org/licenses/>.""".strip()
+# along with cartopy.  If not, see <https://www.gnu.org/licenses/>.""".strip()
 
 
 LICENSE_RE_PATTERN = re.escape(LICENSE_TEMPLATE).replace('\{YEARS\}', '(.*?)')
@@ -62,7 +61,7 @@ REPO_DIR = os.getenv('CARTOPY_GIT_DIR',
                      os.path.dirname(os.path.dirname(CARTOPY_DIR)))
 
 
-class TestLicenseHeaders(unittest.TestCase):
+class TestLicenseHeaders(object):
     @staticmethod
     def years_of_license_in_file(fh):
         """
@@ -127,6 +126,7 @@ class TestLicenseHeaders(unittest.TestCase):
                             'dist/*',
                             'docs/build/*',
                             'docs/source/examples/*.py',
+                            'docs/source/sphinxext/*.py',
                             'lib/cartopy/examples/*.py')
 
         try:
@@ -161,7 +161,7 @@ class TestLicenseHeaders(unittest.TestCase):
             raise ValueError('There were license header failures. See stdout.')
 
 
-class TestCodeFormat(unittest.TestCase):
+class TestCodeFormat(object):
     def test_pep8_conformance(self):
         # Tests the cartopy codebase against the "pep8" tool.
         #
@@ -186,11 +186,11 @@ class TestCodeFormat(unittest.TestCase):
             pep8style.options.exclude.extend(extra_exclude)
 
         result = pep8style.check_files([CARTOPY_DIR])
-        self.assertEqual(result.total_errors, 0, "Found code syntax "
-                                                 "errors (and warnings).")
+        assert result.total_errors == 0, \
+            "Found code syntax errors (and warnings)."
 
 
-class TestFutureImports(unittest.TestCase):
+class TestFutureImports(object):
     excluded = (
         '*/cartopy/examples/*.py',
         '*/docs/source/examples/*.py',
@@ -233,7 +233,3 @@ class TestFutureImports(unittest.TestCase):
         if failed:
             raise ValueError('There were __future__ import check failures. '
                              'See stdout.')
-
-
-if __name__ == '__main__':
-    unittest.main()
