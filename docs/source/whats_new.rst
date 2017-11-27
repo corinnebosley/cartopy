@@ -32,17 +32,17 @@ Features
 .. figure:: gallery/miscellanea/images/sphx_glr_axes_grid_basic_001.png
    :target: gallery/miscellanea/axes_grid_basic.html
    :align: center
-   :scale: 70
+   :scale: 80
 
 .. figure:: gallery/web_services/images/sphx_glr_reprojected_wmts_001.png
    :target: gallery/miscellanea/reprojected_wmts.html
    :align: center
-   :scale: 70
+   :scale: 80
 
 .. figure:: gallery/web_services/images/sphx_glr_wmts_time_001.png
    :target: gallery/miscellanea/wmts_time.html
    :align: center
-   :scale: 70
+   :scale: 60
 
 -----------
 
@@ -212,7 +212,7 @@ Features
         rpole = ccrs.RotatedPole(pole_longitude=171.77,
                                  pole_latitude=49.55,
                                  central_rotated_longitude=180)
-        fig = plt.figure(figsize=(10, 5))
+        fig = plt.figure(figsize=(20, 10))
         ax = plt.axes(projection=rpole)
         ax.set_global()
         ax.gridlines()
@@ -229,7 +229,7 @@ Features
   .. figure:: gallery/miscellanea/images/sphx_glr_star_shaped_boundary_001.png
      :target: gallery/miscellanea/star_shaped_boundary.html
      :align: center
-     :scale: 70
+     :scale: 90
 
 * A new SRTM3 RasterSource has been implemented allowing interactive pan/zoom
   of 3 arc-second elevation data from the Shuttle Radar Topography Mission.

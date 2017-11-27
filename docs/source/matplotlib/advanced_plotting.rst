@@ -142,7 +142,7 @@ each with their own benefits for displaying certain vector field forms.
 .. figure:: ../gallery/vector_data/images/sphx_glr_arrows_001.png
    :target: ../gallery/vector_data/arrows.html
    :align: center
-   :scale: 50
+   :scale: 60
 
 Since both :meth:`~cartopy.mpl.geoaxes.GeoAxes.quiver` and :meth:`~cartopy.mpl.geoaxes.GeoAxes.barbs`
 are visualisations which draw every vector supplied, there is an additional option to "regrid" the
@@ -153,4 +153,4 @@ keyword and can have a massive impact on the effectiveness of the visualisation:
 .. figure:: ../gallery/vector_data/images/sphx_glr_regridding_arrows_001.png
    :target: ../gallery/vector_data/regridding_arrows.html
    :align: center
-   :scale: 50
+   :scale: 60
