@@ -68,7 +68,7 @@ For a full list of names in this dictionary:
 ------------
 
 
-Example of using the Feature class with the matplotlib interface
+Example of using the Feature class with the Matplotlib interface
 ----------------------------------------------------------------
 
 .. literalinclude:: /examples/feature_creation.py

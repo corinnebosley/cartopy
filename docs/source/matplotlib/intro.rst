@@ -1,4 +1,4 @@
-Using cartopy with matplotlib
+Using cartopy with Matplotlib
 =============================
 
 .. toctree::
@@ -12,8 +12,8 @@ Using cartopy with matplotlib
 Beautifully simple maps
 -----------------------
 
-Cartopy has exposed an interface to enable easy map creation using matplotlib.
-Creating a basic map is as simple as telling matplotlib to use a specific map projection,
+Cartopy has exposed an interface to enable easy map creation using Matplotlib.
+Creating a basic map is as simple as telling Matplotlib to use a specific map projection,
 and then adding some coastlines to the axes:
 
 .. plot::
@@ -32,7 +32,7 @@ and then adding some coastlines to the axes:
     plt.show()
 
 
-A list of the available projections to be used with matplotlib can be 
+A list of the available projections to be used with Matplotlib can be
 found on the :ref:`cartopy_projections` page.
 
 The line ``plt.axes(projection=ccrs.PlateCarree())`` sets up a 
@@ -42,7 +42,7 @@ previous example, we used the
 :meth:`~cartopy.mpl.geoaxes.GeoAxes.coastlines` method
 to add coastlines to the map.
 
-To save the figure, use matplotlib's :func:`~matplotlib.pyplot.savefig`
+To save the figure, use Matplotlib's :func:`~matplotlib.pyplot.savefig`
 function.
 
 Lets create another map in a different projection, and make use of the
@@ -68,7 +68,7 @@ Adding data to the map
 ----------------------
 
 Once you have the map just the way you want it, data can be added to it in exactly the same way as
-with normal matplotlib axes. By default, the coordinate system of any data added to a GeoAxes is 
+with normal Matplotlib axes. By default, the coordinate system of any data added to a GeoAxes is
 the same as the coordinate system of the GeoAxes itself, to control which coordinate system 
 that the given data is in, you can add the ``transform`` keyword with an appropriate 
 :class:`cartopy.crs.CRS` instance:
@@ -115,7 +115,7 @@ those points *on the globe* rather than 2d Cartesian space.
 
 .. note::
 
-    By default, matplotlib automatically sets the limits of your Axes based on the data
+    By default, Matplotlib automatically sets the limits of your Axes based on the data
     that you plot. Because cartopy implements a :class:`~cartopy.mpl.geoaxes.GeoAxes`
     class, this equates to the limits of the resulting map. Sometimes this autoscaling
     is a desirable feature and other times it is not.
